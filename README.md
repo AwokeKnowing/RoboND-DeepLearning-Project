@@ -15,7 +15,7 @@ The Udacity simulator is used to generate a dataset of synthetic images. Images 
 #### Fully Convulutional Network Model
 The model consists of 3 depth-wise separable 'same' convolutional layers (stride=2, kernel size=3, with batchnorm), followed by a 1x1 convolution and then 3 deconvolutional layers.  Each of the deconvolutional layers receives the concatenated input of the same size from the convolutional side.  The deconvolutional layers use bilinear upscaling before applying 2 depth-wise separable 'same' convulutions. A final convolutional layer with 3 filters and softmax activation is used to generate the final prediction masks for each of the 3 classes ('hero', pedestrian, other).
 
-#### Results
+### Results
 Using the IoU metric, the trained model achieved a modest 41% accuracy. The IoU metric measures the proportion of correctly labeled pixels to total pixels labeled.
 Much of the classification error was due to the weighting of false negative 'hero' detections.  The issue is most likely an issue with the training distribution which had relatively few examples of the 'hero' vs other pedestrians.
 The following hyperparameters were used in training the network.  Comprehensive parameter search was not performed, but approximately 20 different combinations of parameters were attempted before arriving at the best score reported here (41% average IoU for labeling pedestrians and the 'hero').  Values are in standard ranges found in the literature. In fact after trying many combinations of learning rate, batches and batch size and epochs, in the end the best choice was the classic batch size 16 with learning rate 1e-3. The result was obtained by simply training for more epochs (120)
@@ -29,7 +29,7 @@ The following hyperparameters were used in training the network.  Comprehensive 
 | decoding blocks | 3 | upsampling at same rate to facilitate skip connections |
 | filters | 32->256->32 | keep overal info content by trading filter size for depth
 
-#### Future 
+### Future 
 There are several directions for future research which would likely yeild significant benefits in training speed and accuracy.  
 One direction would be to use the full resolution images to improve the detection of the 'hero' when they are far away (only a few pixels).  Challenges would include finding efficient ways to to downsample and upsample the images without needed to add too many additional layers.
 Another direction would be to quantify the best case scenario for the current model given several orders of magnatude more data.  While training time would increase, inference using the resulting model would run at the same speed, so any improvements in accuracy would presumably be well worth the training.
